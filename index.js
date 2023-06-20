@@ -9,6 +9,38 @@ const authValue = Buffer.from(`${process.env.CLIENT_ID}:${process.env.CLIENT_SEC
 const app = express();
 
 function createSwiftAuthClient() {
+  const pairUser = async (Identifier) => {
+    try {
+      const pairRequest = await client.post(
+        process.env.PAIR_URL,
+        { clientIdentifier: Identifier },
+        { headers: { Authorization: authValue } }
+      );
+  
+      return pairRequest.response.status
+      
+    } catch (error) {
+      console.error('Error pairing user:', error);
+      throw new Error('Error pairing user');
+    }
+  };
+
+  const revokeUser = async (Identifier) => {
+    try {
+      const pairRequest = await client.post(
+        process.env.REVOKE_PAIR_URL,
+        { clientIdentifier: Identifier },
+        { headers: { Authorization: authValue } }
+      );
+  
+      // Process the pairRequest response as needed
+      
+    } catch (error) {
+      console.error('Error pairing user:', error);
+      throw new Error('Error pairing user');
+    }
+  };
+
   async function generateAuthRequest(req, res) {
     try {
       const authRequest = await client.post(config.swiftAuthUrl, {
